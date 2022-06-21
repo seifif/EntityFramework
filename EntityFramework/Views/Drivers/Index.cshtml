@@ -1,0 +1,80 @@
+﻿@model EntityFramework.Models.ViewModels.DriverCarViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                LastName
+            </th>
+            <th>
+                FirstName
+            </th>
+            <th>
+                License
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Drivers)
+        {
+            string selectedRow = "";
+            if (item.ID == Convert.ToInt32(ViewData["DriverID"]?.ToString()))
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.License)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Cars != null)
+{
+    <h3>
+        Owner of the cars:
+    </h3>
+    <table class="table">
+        <tr>
+            @if (Model.Cars.Count() > 0)
+            {
+                <th> Make </th>
+            }
+            else
+            {
+                <th> No car record exist </th>
+            }
+        </tr>
+        @foreach (var item in Model.Cars)
+        {
+            <tr>
+                <td>
+                    @item.Make
+                </td>
+            </tr>
+        }
+    </table>
+}
